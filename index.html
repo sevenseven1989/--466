@@ -80,8 +80,8 @@
                 <a href="#analisis" class="text-gray-700 hover:text-primary transition-colors">Análisis de Potencial</a>
                 <a href="#suscripcion" class="text-gray-700 hover:text-primary transition-colors">Contáctanos</a>
             </nav>
-            <!-- 新增的联系按钮 -->
-            <button id="contactButton" class="bg-whatsapp text-white px-4 py-2 rounded-lg hover:bg-whatsapp/90 transition-colors mr-2">联系</button>
+            <!-- 新增的联系按钮（已修改为西班牙语Contáctanos） -->
+            <button id="contactButton" class="bg-whatsapp text-white px-4 py-2 rounded-lg hover:bg-whatsapp/90 transition-colors mr-2">Contáctanos</button>
             <button class="md:hidden text-gray-700 focus:outline-none">
                 <i class="fa fa-bars text-xl"></i>
             </button>
@@ -613,47 +613,3 @@
                         },
                         tooltip: {
                             mode: 'index',
-                            intersect: false,
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.dataset.label}: €${context.raw.toFixed(2)}`;
-                                }
-                            }
-                        }
-                    },
-                    scales: {
-                        y: {
-                            beginAtZero: false,
-                            ticks: {
-                                callback: function(value) {
-                                    return `€${value}`;
-                                }
-                            }
-                        }
-                    },
-                    interaction: {
-                        mode: 'nearest',
-                        axis: 'x',
-                        intersect: false
-                    },
-                    animations: {
-                        tension: {
-                            duration: 1000,
-                            easing: 'linear'
-                        }
-                    }
-                }
-            });
-
-            // 4. 联系按钮点击事件
-            document.getElementById('contactButton').addEventListener('click', function() {
-                // 这里可以替换为你需要的联系逻辑，示例：跳转到WhatsApp联系页面
-                window.open('https://wa.me/+34698765432?text=Me%20gustaría%20conseguir%20acciones%20de%20calidad.%20¿Cómo%20puedo%20unirme%20al%20chat%20grupal?', '_blank');
-                
-                // 也可以添加其他逻辑，比如弹出表单、显示联系信息等
-                // 示例：alert('正在为你转接联系通道...');
-            }, false);
-        });
-    </script>
-</body>
-</html>
