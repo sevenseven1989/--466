@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acciones de Alto Potencial en España - Mercado Bursátil Español</title>
     <!-- Meta Pixel Code -->
     <script>
@@ -24,29 +24,24 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/font-awesome@4.7.0/css/font-awesome.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.8/dist/chart.umd.min.js"></script>
-    <!-- 配置Tailwind自定义样式（移动端优先） -->
+    <!-- 配置Tailwind自定义样式 -->
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        primary: '#0055A4', // 西班牙国旗蓝
-                        secondary: '#FFC107', // 西班牙国旗黄
+                        primary: '#0055A4', // 西班牙国旗蓝，贴合地域属性
+                        secondary: '#FFC107', // 西班牙国旗黄，突出重点
                         dark: '#1A202C',
                         light: '#F7FAFC',
                         success: '#22C55E',
                         danger: '#EF4444',
-                        whatsapp: '#25D366'
+                        whatsapp: '#25D366' // 新增WhatsApp绿色
                     },
                     fontFamily: {
                         sans: ['Inter', 'Roboto', 'sans-serif'],
                         serif: ['Merriweather', 'Georgia', 'serif']
                     }
-                },
-                screens: {
-                    'sm': '640px',
-                    'md': '768px',
-                    'lg': '1024px',
                 }
             }
         }
@@ -68,173 +63,105 @@
             .bg-gradient-spanish {
                 @apply bg-gradient-to-r from-primary to-primary/80;
             }
-            /* 移动端专属样式 */
-            .mobile-menu {
-                @apply fixed inset-0 bg-dark/95 z-50 flex flex-col items-center justify-center space-y-6 text-xl;
-            }
-            .btn-mobile {
-                @apply w-full py-3 rounded-lg text-center font-semibold;
-            }
-            /* 弹窗样式 */
-            .popup-overlay {
-                @apply fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4;
-            }
-            .popup-content {
-                @apply bg-white rounded-lg shadow-2xl max-w-md w-full p-6 relative transform transition-all;
-            }
         }
     </style>
 </head>
-<body class="bg-gray-50 font-sans text-dark antialiased">
-    <!-- 可关闭的弹窗 -->
-    <div id="customPopup" class="popup-overlay">
-        <div class="popup-content">
-            <!-- 关闭按钮 -->
-            <button id="closePopupBtn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none transition-colors">
-                <i class="fa fa-times text-xl"></i>
-            </button>
-            
-            <!-- 弹窗内容 -->
-            <div class="text-center">
-                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
-                    <i class="fa fa-bullhorn text-3xl"></i>
-                </div>
-                <h3 class="text-xl font-bold text-dark mb-2">¡Análisis Exclusivo!</h3>
-                <p class="text-gray-600 mb-6 text-sm">
-                    Recibe nuestro informe semanal con las mejores oportunidades de inversión en la Bolsa Española.
-                    No te pierdas las acciones con mayor potencial de crecimiento.
-                </p>
-                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="inline-block bg-whatsapp text-white font-semibold px-6 py-3 rounded-lg w-full hover:bg-whatsapp/90 transition-colors">
-                    <i class="fa fa-whatsapp mr-2"></i> Obtener Informe
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <!-- 导航栏（移动端优先） -->
+<body class="bg-gray-50 font-sans text-dark">
+    <!-- 导航栏 -->
     <header class="sticky top-0 z-50 bg-white shadow-sm">
-        <div class="container mx-auto px-3 py-3 flex justify-between items-center">
-            <a href="#" class="flex items-center space-x-1">
-                <i class="fa fa-line-chart text-xl text-primary"></i>
-                <span class="text-sm sm:text-base font-bold text-primary">BolsaEspañola</span>
+        <div class="container mx-auto px-4 py-4 flex flex-wrap justify-between items-center">
+            <a href="#" class="flex items-center space-x-2">
+                <i class="fa fa-line-chart text-2xl text-primary"></i>
+                <span class="text-xl font-bold text-primary">BolsaEspañola Potencial</span>
             </a>
-            
-            <!-- 移动端菜单按钮 -->
-            <button id="mobileMenuBtn" class="text-gray-700 focus:outline-none z-60">
+            <nav class="hidden md:flex space-x-8 mt-0">
+                <a href="#acciones" class="text-gray-700 hover:text-primary transition-colors">Acciones Destacadas</a>
+                <a href="#grafico" class="text-gray-700 hover:text-primary transition-colors">Tendencia en Tiempo Real</a>
+                <a href="#analisis" class="text-gray-700 hover:text-primary transition-colors">Análisis de Potencial</a>
+                <a href="#suscripcion" class="text-gray-700 hover:text-primary transition-colors">Contáctanos</a>
+            </nav>
+            <!-- 新增的联系按钮（已修改为西班牙语Contáctanos） -->
+            <button id="contactButton" class="bg-whatsapp text-white px-4 py-2 rounded-lg hover:bg-whatsapp/90 transition-colors mr-2">Contáctanos</button>
+            <button class="md:hidden text-gray-700 focus:outline-none">
                 <i class="fa fa-bars text-xl"></i>
             </button>
-            
-            <!-- 移动端联系按钮（优先显示） -->
-            <a href="https://sdlink.cc/vYZJKS" target="_blank" class="bg-whatsapp text-white px-3 py-1.5 rounded-lg text-xs sm:text-sm hover:bg-whatsapp/90 transition-colors">
-                <i class="fa fa-whatsapp mr-1"></i> Contacto
-            </a>
-
-            <!-- 桌面端导航（默认隐藏） -->
-            <nav class="hidden lg:flex space-x-4 text-xs sm:text-sm mt-0">
-                <a href="#acciones" class="text-gray-700 hover:text-primary transition-colors">Acciones</a>
-                <a href="#grafico" class="text-gray-700 hover:text-primary transition-colors">Tendencia</a>
-                <a href="#analisis" class="text-gray-700 hover:text-primary transition-colors">Análisis</a>
-                <a href="#suscripcion" class="text-gray-700 hover:text-primary transition-colors">Contacto</a>
-            </nav>
-        </div>
-        
-        <!-- 移动端菜单（默认隐藏） -->
-        <div id="mobileMenu" class="mobile-menu hidden">
-            <button id="closeMenuBtn" class="absolute top-4 right-4 text-white focus:outline-none">
-                <i class="fa fa-times text-2xl"></i>
-            </button>
-            <a href="#acciones" class="text-white hover:text-secondary transition-colors">Acciones Destacadas</a>
-            <a href="#grafico" class="text-white hover:text-secondary transition-colors">Tendencia en Tiempo Real</a>
-            <a href="#analisis" class="text-white hover:text-secondary transition-colors">Análisis de Potencial</a>
-            <a href="#suscripcion" class="text-white hover:text-secondary transition-colors">Contáctanos</a>
-            <a href="https://sdlink.cc/vYZJKS" target="_blank" class="bg-whatsapp text-white px-8 py-3 rounded-lg hover:bg-whatsapp/90 transition-colors mt-4">
-                <i class="fa fa-whatsapp mr-2"></i> Enviar Mensaje
-            </a>
         </div>
     </header>
 
-    <!-- 英雄区（移动端优先） -->
-    <section class="bg-gradient-spanish text-white py-10 sm:py-16">
-        <div class="container mx-auto px-3">
-            <div class="max-w-full mx-auto text-center">
-                <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold mb-4 leading-tight">
-                    Descubre las Acciones de Alto Potencial en la Bolsa Española
-                </h1>
-                <p class="text-base sm:text-lg opacity-90 mb-6 px-2">
-                    Datos en tiempo real, análisis expertos y oportunidades de crecimiento que no querrás perderte
-                </p>
-                <!-- 移动端大按钮 -->
-                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="inline-block bg-whatsapp text-white font-semibold px-6 py-3 sm:px-8 sm:py-4 rounded-lg shadow-lg w-full sm:w-auto hover:shadow-xl transition-all duration-300 mb-8">
+    <!-- 英雄区 -->
+    <section class="bg-gradient-spanish text-white py-16 md:py-24">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h1 class="text-4xl md:text-5xl font-bold mb-6">Descubre las Acciones de Alto Potencial en la Bolsa Española</h1>
+                <p class="text-lg md:text-xl opacity-90 mb-8">Datos en tiempo real, análisis expertos y oportunidades de crecimiento que no querrás perderte</p>
+                <!-- 替换为指定链接 -->
+                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="inline-block bg-whatsapp text-white font-semibold px-8 py-3 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300">
                     Contáctame por WhatsApp <i class="fa fa-whatsapp ml-2"></i>
                 </a>
-                <div class="mt-4 flex flex-wrap justify-center items-center gap-4 text-xs sm:text-sm">
+                <div class="mt-12 flex justify-center items-center space-x-4 text-sm md:text-base">
                     <div class="flex items-center">
-                        <i class="fa fa-refresh mr-1"></i>
+                        <i class="fa fa-refresh mr-2"></i>
                         <span>Última actualización: <span id="last-update">12:45:30</span></span>
                     </div>
                     <div class="flex items-center">
-                        <i class="fa fa-check-circle mr-1"></i>
-                        <span>Datos verificados</span>
+                        <i class="fa fa-check-circle mr-2"></i>
+                        <span>Datos verificados por expertos</span>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 高潜力股票列表（移动端优先） -->
-    <section id="acciones" class="py-8 sm:py-12 bg-white">
-        <div class="container mx-auto px-3">
-            <div class="max-w-full mx-auto">
-                <div class="text-center mb-8">
-                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-dark mb-3">
-                        Acciones de Alto Potencial - Bolsa de Madrid
-                    </h2>
-                    <p class="text-gray-600 text-sm sm:text-base px-2">
-                        Selección de empresas con fuerte perspectiva de crecimiento
-                    </p>
+    <!-- 高潜力股票列表（实时数据） -->
+    <section id="acciones" class="py-16 md:py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Acciones de Alto Potencial - Bolsa de Madrid</h2>
+                    <p class="text-gray-600 text-lg">Selección de empresas con fuerte perspectiva de crecimiento, rentabilidad sostenible y solidez financiera</p>
                 </div>
 
-                <!-- 股票筛选栏（移动端适配） -->
-                <div class="flex flex-wrap flex-col sm:flex-row justify-between items-center mb-6 p-3 bg-gray-100 rounded-lg">
-                    <div class="flex items-center mb-3 sm:mb-0 w-full sm:w-auto">
-                        <span class="mr-2 text-sm text-gray-700">Filtrar:</span>
-                        <select class="w-full sm:w-auto px-2 py-1.5 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/50 text-sm">
+                <!-- 股票筛选栏 -->
+                <div class="flex flex-wrap justify-between items-center mb-8 p-4 bg-gray-100 rounded-lg">
+                    <div class="flex items-center mb-4 md:mb-0">
+                        <span class="mr-3 text-gray-700">Filtrar por:</span>
+                        <select class="px-3 py-2 border border-gray-300 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-primary/50">
                             <option value="all">Todas las acciones</option>
                             <option value="tec">Tecnología</option>
-                            <option value="ener">Energía</option>
+                            <option value="ener">Energía Renovable</option>
                             <option value="fin">Finanzas</option>
                             <option value="cons">Consumo</option>
                         </select>
                     </div>
-                    <div class="flex items-center w-full sm:w-auto gap-2">
-                        <span class="mr-2 text-sm text-gray-700">Ordenar:</span>
-                        <button class="px-2 py-1.5 bg-primary text-white rounded-lg text-xs hover:bg-primary/90 transition-colors">
+                    <div class="flex items-center">
+                        <span class="mr-3 text-gray-700">Ordenar por:</span>
+                        <button class="px-3 py-2 bg-primary text-white rounded-lg mr-2 hover:bg-primary/90 transition-colors">
                             <i class="fa fa-sort-amount-asc mr-1"></i> Crecimiento
                         </button>
-                        <button class="px-2 py-1.5 border border-gray-300 rounded-lg bg-white text-gray-700 text-xs hover:bg-gray-50 transition-colors">
+                        <button class="px-3 py-2 border border-gray-300 rounded-lg bg-white text-gray-700 hover:bg-gray-50 transition-colors">
                             <i class="fa fa-sort-alpha-asc mr-1"></i> Nombre
                         </button>
                     </div>
                 </div>
 
-                <!-- 股票卡片网格（移动端单列，大屏多列） -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-                    <!-- 股票卡片 1 - 科技类 -->
-                    <div class="border border-gray-200 rounded-lg shadow-md p-4 sm:p-6 bg-white stock-card-hover">
-                        <div class="flex justify-between items-start mb-3">
+                <!-- 股票卡片网格 -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- 股票卡片 1 - 科技类（高潜力） -->
+                    <div class="border border-gray-200 rounded-lg shadow-md p-6 bg-white stock-card-hover">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-dark">MercadoLibre España</h3>
-                                <p class="text-gray-500 text-xs">Tecnología | MELI.MC</p>
+                                <h3 class="text-xl font-bold text-dark">MercadoLibre España</h3>
+                                <p class="text-gray-500 text-sm">Tecnología | MELI.MC</p>
                             </div>
-                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-xs">
+                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-sm">
                                 +5.23% <i class="fa fa-caret-up ml-1"></i>
                             </span>
                         </div>
-                        <div class="mb-3">
-                            <p class="text-xl sm:text-2xl font-bold text-dark">€1,245.89</p>
-                            <p class="text-gray-600 text-xs">Precio actual (en tiempo real)</p>
+                        <div class="mb-4">
+                            <p class="text-2xl font-bold text-dark">€1,245.89</p>
+                            <p class="text-gray-600 text-sm">Precio actual (en tiempo real)</p>
                         </div>
-                        <div class="flex justify-between text-xs mb-3">
+                        <div class="flex justify-between text-sm mb-4">
                             <div>
                                 <span class="text-gray-500">52w Máx:</span>
                                 <span class="font-semibold">€1,320.45</span>
@@ -244,31 +171,31 @@
                                 <span class="font-semibold">€890.12</span>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                            <div class="bg-success h-1.5 rounded-full" style="width: 78%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-success h-2 rounded-full" style="width: 78%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-600">
-                            <span>Potencial: 78%</span>
+                            <span>Potencial de crecimiento: 78%</span>
                             <span>Análisis: <i class="fa fa-star text-yellow-400"></i> 4.9/5</span>
                         </div>
                     </div>
 
-                    <!-- 股票卡片 2 - 可再生能源 -->
-                    <div class="border border-gray-200 rounded-lg shadow-md p-4 sm:p-6 bg-white stock-card-hover">
-                        <div class="flex justify-between items-start mb-3">
+                    <!-- 股票卡片 2 - 可再生能源（高潜力） -->
+                    <div class="border border-gray-200 rounded-lg shadow-md p-6 bg-white stock-card-hover">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-dark">Iberdrola Renovables</h3>
-                                <p class="text-gray-500 text-xs">Energía | IBE.MC</p>
+                                <h3 class="text-xl font-bold text-dark">Iberdrola Renovables</h3>
+                                <p class="text-gray-500 text-sm">Energía | IBE.MC</p>
                             </div>
-                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-xs">
+                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-sm">
                                 +3.87% <i class="fa fa-caret-up ml-1"></i>
                             </span>
                         </div>
-                        <div class="mb-3">
-                            <p class="text-xl sm:text-2xl font-bold text-dark">€12.67</p>
-                            <p class="text-gray-600 text-xs">Precio actual (en tiempo real)</p>
+                        <div class="mb-4">
+                            <p class="text-2xl font-bold text-dark">€12.67</p>
+                            <p class="text-gray-600 text-sm">Precio actual (en tiempo real)</p>
                         </div>
-                        <div class="flex justify-between text-xs mb-3">
+                        <div class="flex justify-between text-sm mb-4">
                             <div>
                                 <span class="text-gray-500">52w Máx:</span>
                                 <span class="font-semibold">€13.10</span>
@@ -278,31 +205,31 @@
                                 <span class="font-semibold">€8.45</span>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                            <div class="bg-success h-1.5 rounded-full" style="width: 85%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-success h-2 rounded-full" style="width: 85%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-600">
-                            <span>Potencial: 85%</span>
+                            <span>Potencial de crecimiento: 85%</span>
                             <span>Análisis: <i class="fa fa-star text-yellow-400"></i> 4.8/5</span>
                         </div>
                     </div>
 
-                    <!-- 股票卡片 3 - 金融科技 -->
-                    <div class="border border-gray-200 rounded-lg shadow-md p-4 sm:p-6 bg-white stock-card-hover">
-                        <div class="flex justify-between items-start mb-3">
+                    <!-- 股票卡片 3 - 金融科技（高潜力） -->
+                    <div class="border border-gray-200 rounded-lg shadow-md p-6 bg-white stock-card-hover">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-dark">Banco Sabadell FinTech</h3>
-                                <p class="text-gray-500 text-xs">Finanzas | SAB.MC</p>
+                                <h3 class="text-xl font-bold text-dark">Banco Sabadell FinTech</h3>
+                                <p class="text-gray-500 text-sm">Finanzas | SAB.MC</p>
                             </div>
-                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-xs">
+                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-sm">
                                 +4.51% <i class="fa fa-caret-up ml-1"></i>
                             </span>
                         </div>
-                        <div class="mb-3">
-                            <p class="text-xl sm:text-2xl font-bold text-dark">€3.92</p>
-                            <p class="text-gray-600 text-xs">Precio actual (en tiempo real)</p>
+                        <div class="mb-4">
+                            <p class="text-2xl font-bold text-dark">€3.92</p>
+                            <p class="text-gray-600 text-sm">Precio actual (en tiempo real)</p>
                         </div>
-                        <div class="flex justify-between text-xs mb-3">
+                        <div class="flex justify-between text-sm mb-4">
                             <div>
                                 <span class="text-gray-500">52w Máx:</span>
                                 <span class="font-semibold">€4.25</span>
@@ -312,31 +239,31 @@
                                 <span class="font-semibold">€2.10</span>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                            <div class="bg-success h-1.5 rounded-full" style="width: 72%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-success h-2 rounded-full" style="width: 72%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-600">
-                            <span>Potencial: 72%</span>
+                            <span>Potencial de crecimiento: 72%</span>
                             <span>Análisis: <i class="fa fa-star text-yellow-400"></i> 4.7/5</span>
                         </div>
                     </div>
 
-                    <!-- 股票卡片 4 - 消费类 -->
-                    <div class="border border-gray-200 rounded-lg shadow-md p-4 sm:p-6 bg-white stock-card-hover">
-                        <div class="flex justify-between items-start mb-3">
+                    <!-- 股票卡片 4 - 消费类（高潜力） -->
+                    <div class="border border-gray-200 rounded-lg shadow-md p-6 bg-white stock-card-hover">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-dark">Inditex Group</h3>
-                                <p class="text-gray-500 text-xs">Consumo | ITX.MC</p>
+                                <h3 class="text-xl font-bold text-dark">Inditex Group</h3>
+                                <p class="text-gray-500 text-sm">Consumo | ITX.MC</p>
                             </div>
-                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-xs">
+                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-sm">
                                 +2.98% <i class="fa fa-caret-up ml-1"></i>
                             </span>
                         </div>
-                        <div class="mb-3">
-                            <p class="text-xl sm:text-2xl font-bold text-dark">€32.15</p>
-                            <p class="text-gray-600 text-xs">Precio actual (en tiempo real)</p>
+                        <div class="mb-4">
+                            <p class="text-2xl font-bold text-dark">€32.15</p>
+                            <p class="text-gray-600 text-sm">Precio actual (en tiempo real)</p>
                         </div>
-                        <div class="flex justify-between text-xs mb-3">
+                        <div class="flex justify-between text-sm mb-4">
                             <div>
                                 <span class="text-gray-500">52w Máx:</span>
                                 <span class="font-semibold">€34.80</span>
@@ -346,31 +273,31 @@
                                 <span class="font-semibold">€25.30</span>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                            <div class="bg-success h-1.5 rounded-full" style="width: 69%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-success h-2 rounded-full" style="width: 69%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-600">
-                            <span>Potencial: 69%</span>
+                            <span>Potencial de crecimiento: 69%</span>
                             <span>Análisis: <i class="fa fa-star text-yellow-400"></i> 4.9/5</span>
                         </div>
                     </div>
 
-                    <!-- 股票卡片 5 - 生物科技 -->
-                    <div class="border border-gray-200 rounded-lg shadow-md p-4 sm:p-6 bg-white stock-card-hover">
-                        <div class="flex justify-between items-start mb-3">
+                    <!-- 股票卡片 5 - 生物科技（高潜力） -->
+                    <div class="border border-gray-200 rounded-lg shadow-md p-6 bg-white stock-card-hover">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-dark">Zeltia Biotech</h3>
-                                <p class="text-gray-500 text-xs">Biotecnología | ZEL.MC</p>
+                                <h3 class="text-xl font-bold text-dark">Zeltia Biotech</h3>
+                                <p class="text-gray-500 text-sm">Biotecnología | ZEL.MC</p>
                             </div>
-                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-xs">
+                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-sm">
                                 +6.72% <i class="fa fa-caret-up ml-1"></i>
                             </span>
                         </div>
-                        <div class="mb-3">
-                            <p class="text-xl sm:text-2xl font-bold text-dark">€8.76</p>
-                            <p class="text-gray-600 text-xs">Precio actual (en tiempo real)</p>
+                        <div class="mb-4">
+                            <p class="text-2xl font-bold text-dark">€8.76</p>
+                            <p class="text-gray-600 text-sm">Precio actual (en tiempo real)</p>
                         </div>
-                        <div class="flex justify-between text-xs mb-3">
+                        <div class="flex justify-between text-sm mb-4">
                             <div>
                                 <span class="text-gray-500">52w Máx:</span>
                                 <span class="font-semibold">€9.10</span>
@@ -380,31 +307,31 @@
                                 <span class="font-semibold">€4.30</span>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                            <div class="bg-success h-1.5 rounded-full" style="width: 90%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-success h-2 rounded-full" style="width: 90%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-600">
-                            <span>Potencial: 90%</span>
+                            <span>Potencial de crecimiento: 90%</span>
                             <span>Análisis: <i class="fa fa-star text-yellow-400"></i> 4.8/5</span>
                         </div>
                     </div>
 
-                    <!-- 股票卡片 6 - 物流 -->
-                    <div class="border border-gray-200 rounded-lg shadow-md p-4 sm:p-6 bg-white stock-card-hover">
-                        <div class="flex justify-between items-start mb-3">
+                    <!-- 股票卡片 6 - 物流（高潜力） -->
+                    <div class="border border-gray-200 rounded-lg shadow-md p-6 bg-white stock-card-hover">
+                        <div class="flex justify-between items-start mb-4">
                             <div>
-                                <h3 class="text-lg sm:text-xl font-bold text-dark">Logista España</h3>
-                                <p class="text-gray-500 text-xs">Logística | LOG.MC</p>
+                                <h3 class="text-xl font-bold text-dark">Logista España</h3>
+                                <p class="text-gray-500 text-sm">Logística | LOG.MC</p>
                             </div>
-                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-xs">
+                            <span class="bg-green-100 text-green-up px-2 py-1 rounded-full text-sm">
                                 +3.15% <i class="fa fa-caret-up ml-1"></i>
                             </span>
                         </div>
-                        <div class="mb-3">
-                            <p class="text-xl sm:text-2xl font-bold text-dark">€15.89</p>
-                            <p class="text-gray-600 text-xs">Precio actual (en tiempo real)</p>
+                        <div class="mb-4">
+                            <p class="text-2xl font-bold text-dark">€15.89</p>
+                            <p class="text-gray-600 text-sm">Precio actual (en tiempo real)</p>
                         </div>
-                        <div class="flex justify-between text-xs mb-3">
+                        <div class="flex justify-between text-sm mb-4">
                             <div>
                                 <span class="text-gray-500">52w Máx:</span>
                                 <span class="font-semibold">€16.50</span>
@@ -414,19 +341,19 @@
                                 <span class="font-semibold">€10.20</span>
                             </div>
                         </div>
-                        <div class="w-full bg-gray-200 rounded-full h-1.5 mb-2">
-                            <div class="bg-success h-1.5 rounded-full" style="width: 75%"></div>
+                        <div class="w-full bg-gray-200 rounded-full h-2 mb-2">
+                            <div class="bg-success h-2 rounded-full" style="width: 75%"></div>
                         </div>
                         <div class="flex justify-between text-xs text-gray-600">
-                            <span>Potencial: 75%</span>
+                            <span>Potencial de crecimiento: 75%</span>
                             <span>Análisis: <i class="fa fa-star text-yellow-400"></i> 4.6/5</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- 加载更多按钮（移动端适配） -->
-                <div class="text-center mt-8">
-                    <button class="w-full sm:w-auto px-6 py-2 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300">
+                <!-- 加载更多按钮 -->
+                <div class="text-center mt-10">
+                    <button class="px-6 py-3 border border-primary text-primary font-semibold rounded-lg hover:bg-primary hover:text-white transition-all duration-300">
                         Cargar Más Acciones <i class="fa fa-refresh ml-2"></i>
                     </button>
                 </div>
@@ -434,33 +361,29 @@
         </div>
     </section>
 
-    <!-- 实时趋势图表（移动端优先） -->
-    <section id="grafico" class="py-8 sm:py-12 bg-gray-50">
-        <div class="container mx-auto px-3">
-            <div class="max-w-full mx-auto">
-                <div class="text-center mb-8">
-                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-dark mb-3">
-                        Tendencia en Tiempo Real
-                    </h2>
-                    <p class="text-gray-600 text-sm sm:text-base px-2">
-                        Visualiza el rendimiento intradía de las acciones destacadas
-                    </p>
+    <!-- 实时趋势图表 -->
+    <section id="grafico" class="py-16 md:py-20 bg-gray-50">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Tendencia en Tiempo Real - Acciones de Alto Potencial</h2>
+                    <p class="text-gray-600 text-lg">Visualiza el rendimiento intradía de las acciones destacadas</p>
                 </div>
 
-                <div class="bg-white p-4 sm:p-6 rounded-lg shadow-md">
-                    <div class="flex flex-wrap justify-between items-center mb-4">
+                <div class="bg-white p-6 md:p-8 rounded-lg shadow-md">
+                    <div class="flex flex-wrap justify-between items-center mb-6">
                         <div>
-                            <h3 class="text-lg font-semibold text-dark">Rendimiento Intradía</h3>
-                            <p class="text-gray-500 text-xs">Datos actualizados cada 30 segundos</p>
+                            <h3 class="text-xl font-semibold text-dark">Rendimiento Intradía (Últimas 24 Horas)</h3>
+                            <p class="text-gray-500 text-sm">Datos actualizados cada 30 segundos</p>
                         </div>
-                        <div class="flex space-x-2 mt-3 sm:mt-0">
-                            <button class="px-2 py-1 bg-primary text-white rounded text-xs hover:bg-primary/90 transition-colors">1D</button>
-                            <button class="px-2 py-1 border border-gray-300 rounded text-xs hover:bg-gray-50 transition-colors">1W</button>
-                            <button class="px-2 py-1 border border-gray-300 rounded text-xs hover:bg-gray-50 transition-colors">1M</button>
-                            <button class="px-2 py-1 border border-gray-300 rounded text-xs hover:bg-gray-50 transition-colors">1Y</button>
+                        <div class="flex space-x-3 mt-4 md:mt-0">
+                            <button class="px-3 py-1 bg-primary text-white rounded text-sm hover:bg-primary/90 transition-colors">1D</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 transition-colors">1W</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 transition-colors">1M</button>
+                            <button class="px-3 py-1 border border-gray-300 rounded text-sm hover:bg-gray-50 transition-colors">1Y</button>
                         </div>
                     </div>
-                    <div class="h-60 sm:h-80">
+                    <div class="h-80">
                         <canvas id="stockChart"></canvas>
                     </div>
                 </div>
@@ -468,77 +391,63 @@
         </div>
     </section>
 
-    <!-- 高潜力股票分析（移动端优先） -->
-    <section id="analisis" class="py-8 sm:py-12 bg-white">
-        <div class="container mx-auto px-3">
-            <div class="max-w-full mx-auto">
-                <div class="text-center mb-8">
-                    <h2 class="text-xl sm:text-2xl md:text-3xl font-bold text-dark mb-3">
-                        Análisis de Alto Potencial
-                    </h2>
-                    <p class="text-gray-600 text-sm sm:text-base px-2">
-                        Factores clave que impulsan el crecimiento de estas empresas
-                    </p>
+    <!-- 高潜力股票分析 -->
+    <section id="analisis" class="py-16 md:py-20 bg-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl md:text-4xl font-bold text-dark mb-4">Análisis de Porqué Estas Acciones Son de Alto Potencial</h2>
+                    <p class="text-gray-600 text-lg">Factores clave que impulsan el crecimiento de estas empresas en la bolsa española</p>
                 </div>
 
-                <div class="grid grid-cols-1 gap-6">
-                    <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto sm:mx-0">
-                            <i class="fa fa-rocket text-2xl"></i>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                            <i class="fa fa-rocket text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-2 text-dark">Crecimiento Revolucionario</h3>
-                            <p class="text-gray-600 text-sm">
-                                Empresas en sectores con demanda exponencial (tecnología, energías renovables) que transforman la economía española.
-                            </p>
+                            <h3 class="text-xl font-bold mb-3 text-dark">Crecimiento Revolucionario del Sector</h3>
+                            <p class="text-gray-600">Empresas ubicadas en sectores con demanda exponencial (tecnología, energías renovables, biotecnología) que están transformando la economía española y europea.</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto sm:mx-0">
-                            <i class="fa fa-money text-2xl"></i>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                            <i class="fa fa-money text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-2 text-dark">Solidez Financiera</h3>
-                            <p class="text-gray-600 text-sm">
-                                Balance saludable, flujo de caja positivo y rentabilidad sobre el capital propio superior al promedio.
-                            </p>
+                            <h3 class="text-xl font-bold mb-3 text-dark">Solidez Financiera y Rentabilidad</h3>
+                            <p class="text-gray-600">Balance saludable, flujo de caja positivo sostenido y tasas de rentabilidad sobre el capital propio (ROE) superiores al promedio del sector.</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto sm:mx-0">
-                            <i class="fa fa-globe text-2xl"></i>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                            <i class="fa fa-globe text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-2 text-dark">Expansión Internacional</h3>
-                            <p class="text-gray-600 text-sm">
-                                Estrategias exitosas en mercados emergentes, diversificando riesgos y aumentando oportunidades de ingresos.
-                            </p>
+                            <h3 class="text-xl font-bold mb-3 text-dark">Expansión Internacional y Mercados Nuevos</h3>
+                            <p class="text-gray-600">Estrategias de expansión exitosas en mercados emergentes y europeos, diversificando riesgos y aumentando las oportunidades de ingresos.</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto sm:mx-0">
-                            <i class="fa fa-lightbulb-o text-2xl"></i>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
+                        <div class="flex-shrink-0 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                            <i class="fa fa-lightbulb-o text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-2 text-dark">Innovación y Propiedad Intelectual</h3>
-                            <p class="text-gray-600 text-sm">
-                                Inversiones constantes en I+D+i, patentes y tecnologías disruptivas que crean ventaja competitiva.
-                            </p>
+                            <h3 class="text-xl font-bold mb-3 text-dark">Innovación y Propiedad Intelectual</h3>
+                            <p class="text-gray-600">Inversiones constantes en I+D+i, patentes y tecnologías disruptivas que crean una ventaja competitiva sostenible frente a la competencia.</p>
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-3 sm:flex-row sm:space-y-0 sm:space-x-4">
-                        <div class="flex-shrink-0 w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto sm:mx-0">
-                            <i class="fa fa-handshake-o text-2xl"></i>
+                    <div class="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6 md:col-span-2 mx-auto">
+                        <div class="flex-shrink-0 w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary">
+                            <i class="fa fa-handshake-o text-3xl"></i>
                         </div>
                         <div>
-                            <h3 class="text-lg font-bold mb-2 text-dark">Apoyo Regulatorio</h3>
-                            <p class="text-gray-600 text-sm">
-                                Alineadas con políticas europeas de sostenibilidad y digitalización, beneficiándose de incentivos fiscales y marcos favorables.
-                            </p>
+                            <h3 class="text-xl font-bold mb-3 text-dark">Apoyo Regulatorio y Políticas Públicas</h3>
+                            <p class="text-gray-600">Alineadas con las políticas europeas y españolas de sostenibilidad, digitalización y crecimiento económico, beneficiándose de subsidios, incentivos fiscales y marcos regulatorios favorables que impulsan su desarrollo a largo plazo.</p>
                         </div>
                     </div>
                 </div>
@@ -546,128 +455,71 @@
         </div>
     </section>
 
-    <!-- 联系区域（移动端优先） -->
-    <section id="suscripcion" class="py-10 sm:py-16 bg-gradient-spanish text-white">
-        <div class="container mx-auto px-3">
-            <div class="max-w-full mx-auto text-center">
-                <h2 class="text-xl sm:text-2xl md:text-3xl font-bold mb-4">
-                    Contáctanos para Análisis Exclusivos
-                </h2>
-                <p class="text-base sm:text-lg opacity-90 mb-6 px-2">
-                    Recibe análisis personalizados directamente en tu WhatsApp
-                </p>
-                <!-- 移动端全屏按钮 -->
-                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="inline-block bg-whatsapp text-white font-semibold px-8 py-4 rounded-lg shadow-lg w-full sm:w-auto hover:shadow-xl transition-all duration-300 text-lg mb-4">
-                    <i class="fa fa-whatsapp mr-2"></i> Envíanos un mensaje
+    <!-- 联系区域（替换原订阅区域） -->
+    <section id="suscripcion" class="py-16 md:py-20 bg-gradient-spanish text-white">
+        <div class="container mx-auto px-4">
+            <div class="max-w-3xl mx-auto text-center">
+                <h2 class="text-3xl md:text-4xl font-bold mb-6">Contáctanos para Obtener Análisis Exclusivos</h2>
+                <p class="text-lg md:text-xl opacity-90 mb-8">Recibe análisis personalizados y alertas de oportunidades de inversión directamente en tu WhatsApp</p>
+                <!-- 替换为指定链接 -->
+                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="inline-block bg-whatsapp text-white font-semibold px-8 py-4 rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 text-lg">
+                    <i class="fa fa-whatsapp mr-2"></i> Envíanos un mensaje por WhatsApp
                 </a>
-                <p class="text-xs opacity-80">Responderemos en menos de 24 horas</p>
+                <p class="mt-4 text-sm opacity-80">Responderemos a todas tus consultas en menos de 24 horas</p>
             </div>
         </div>
     </section>
 
-    <!-- 页脚（移动端优先） -->
-    <footer class="bg-dark text-gray-400 py-8">
-        <div class="container mx-auto px-3">
-            <div class="max-w-full mx-auto">
-                <div class="flex flex-col md:flex-row justify-between mb-6 gap-6">
-                    <div class="w-full md:w-1/3">
-                        <a href="#" class="flex items-center space-x-2 mb-3">
-                            <i class="fa fa-line-chart text-xl text-secondary"></i>
-                            <span class="text-lg font-bold text-white">BolsaEspañola</span>
+    <!-- 页脚 -->
+    <footer class="bg-dark text-gray-400 py-12">
+        <div class="container mx-auto px-4">
+            <div class="max-w-5xl mx-auto">
+                <div class="flex flex-wrap justify-between mb-8">
+                    <div class="w-full md:w-1/3 mb-8 md:mb-0">
+                        <a href="#" class="flex items-center space-x-2 mb-4">
+                            <i class="fa fa-line-chart text-2xl text-secondary"></i>
+                            <span class="text-xl font-bold text-white">BolsaEspañola Potencial</span>
                         </a>
-                        <p class="text-xs sm:text-sm mb-4">
-                            Tu fuente confiable de información sobre acciones de alto potencial en la bolsa española.
-                        </p>
+                        <p class="mb-4">Tu fuente confiable de información sobre acciones de alto potencial en la bolsa española.</p>
                         <div class="flex space-x-4">
                             <a href="#" class="text-gray-400 hover:text-secondary transition-colors"><i class="fa fa-facebook"></i></a>
                             <a href="#" class="text-gray-400 hover:text-secondary transition-colors"><i class="fa fa-twitter"></i></a>
                             <a href="#" class="text-gray-400 hover:text-secondary transition-colors"><i class="fa fa-linkedin"></i></a>
+                            <a href="#" class="text-gray-400 hover:text-secondary transition-colors"><i class="fa fa-instagram"></i></a>
+                            <!-- 替换为指定链接 -->
                             <a href="https://sdlink.cc/vYZJKS" target="_blank" class="text-gray-400 hover:text-whatsapp transition-colors"><i class="fa fa-whatsapp"></i></a>
                         </div>
                     </div>
-                    <div class="w-full md:w-1/3">
-                        <h3 class="text-white font-semibold text-lg mb-3">Enlaces Rápidos</h3>
-                        <ul class="space-y-2 text-sm">
+                    <div class="w-full md:w-1/3 mb-8 md:mb-0">
+                        <h3 class="text-white font-semibold text-lg mb-4">Enlaces Rápidos</h3>
+                        <ul class="space-y-2">
                             <li><a href="#acciones" class="hover:text-secondary transition-colors">Acciones Destacadas</a></li>
                             <li><a href="#grafico" class="hover:text-secondary transition-colors">Tendencia en Tiempo Real</a></li>
                             <li><a href="#analisis" class="hover:text-secondary transition-colors">Análisis Expertos</a></li>
+                            <li><a href="#suscripcion" class="hover:text-secondary transition-colors">Contáctanos</a></li>
+                            <!-- 替换为指定链接 -->
                             <li><a href="https://sdlink.cc/vYZJKS" target="_blank" class="hover:text-whatsapp transition-colors">Contáctame por WhatsApp</a></li>
                         </ul>
                     </div>
                     <div class="w-full md:w-1/3">
-                        <h3 class="text-white font-semibold text-lg mb-3">Contacto</h3>
-                        <ul class="space-y-2 text-sm">
+                        <h3 class="text-white font-semibold text-lg mb-4">Contacto</h3>
+                        <ul class="space-y-2">
                             <li class="flex items-center"><i class="fa fa-map-marker mr-2"></i> Paseo de la Castellana, 100, Madrid</li>
-                            <li class="flex items-center">
-                                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="hover:text-whatsapp transition-colors">
-                                    <i class="fa fa-whatsapp mr-2 text-whatsapp"></i> Consulta ahora
-                                </a>
-                            </li>
+                            <!-- 替换为指定链接（保留WhatsApp图标，链接改为指定地址） -->
+                            <li class="flex items-center"><a href="https://sdlink.cc/vYZJKS" target="_blank" class="hover:text-whatsapp transition-colors"><i class="fa fa-whatsapp mr-2 text-whatsapp"></i> Consulta ahora</a></li>
                         </ul>
                     </div>
                 </div>
-                <div class="border-t border-gray-700 pt-6 text-center text-xs">
+                <div class="border-t border-gray-700 pt-8 text-center text-sm">
                     <p>© 2026 BolsaEspañola Potencial. Todos los derechos reservados. Información financiera con fines educativos, no constituye asesoramiento de inversión.</p>
                 </div>
             </div>
         </div>
     </footer>
 
-    <!-- 脚本：移动端适配 + 功能逻辑 -->
+    <!-- 脚本：实时数据更新 + 图表渲染 + 联系按钮事件 -->
     <script>
-        // 1. 弹窗关闭功能
-        const customPopup = document.getElementById('customPopup');
-        const closePopupBtn = document.getElementById('closePopupBtn');
-
-        // 关闭弹窗
-        function closePopup() {
-            customPopup.classList.add('hidden');
-            // 可选：使用localStorage记住用户已关闭弹窗，刷新后不再显示
-            localStorage.setItem('popupClosed', 'true');
-        }
-
-        // 检查用户是否已关闭过弹窗
-        document.addEventListener('DOMContentLoaded', function() {
-            const popupClosed = localStorage.getItem('popupClosed');
-            if (popupClosed === 'true') {
-                customPopup.classList.add('hidden');
-            }
-            
-            // 绑定关闭按钮事件
-            closePopupBtn.addEventListener('click', closePopup);
-            
-            // 可选：点击弹窗背景也关闭弹窗
-            customPopup.addEventListener('click', function(e) {
-                if (e.target === customPopup) {
-                    closePopup();
-                }
-            });
-        });
-
-        // 2. 移动端菜单交互
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const closeMenuBtn = document.getElementById('closeMenuBtn');
-        const mobileMenu = document.getElementById('mobileMenu');
-
-        mobileMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.remove('hidden');
-            document.body.style.overflow = 'hidden'; // 禁止背景滚动
-        });
-
-        closeMenuBtn.addEventListener('click', () => {
-            mobileMenu.classList.add('hidden');
-            document.body.style.overflow = 'auto'; // 恢复滚动
-        });
-
-        // 点击菜单链接关闭菜单
-        mobileMenu.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenu.classList.add('hidden');
-                document.body.style.overflow = 'auto';
-            });
-        });
-
-        // 3. 实时更新时间戳
+        // 1. 实时更新时间戳（模拟数据实时刷新）
         function updateLastUpdate() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -675,35 +527,45 @@
             const seconds = String(now.getSeconds()).padStart(2, '0');
             document.getElementById('last-update').textContent = `${hours}:${minutes}:${seconds}`;
         }
+
+        // 每秒更新一次时间
         setInterval(updateLastUpdate, 1000);
+        // 初始化加载时更新
         updateLastUpdate();
 
-        // 4. 模拟股票价格波动（移动端优化性能）
+        // 2. 模拟股票价格实时小幅波动（体现实时性）
         function fluctuateStockPrices() {
-            const priceElements = document.querySelectorAll('.text-xl.font-bold.text-dark, .text-2xl.font-bold.text-dark');
+            const priceElements = document.querySelectorAll('.text-2xl.font-bold.text-dark');
             priceElements.forEach(element => {
+                // 提取当前价格数值
                 let currentPrice = parseFloat(element.textContent.replace('€', '').replace(',', '.'));
+                // 生成小幅波动值（-0.5% 到 +0.5% 之间）
                 const fluctuation = currentPrice * (Math.random() * 0.01 - 0.005);
+                // 计算新价格并保留2位小数
                 const newPrice = (currentPrice + fluctuation).toFixed(2);
+                // 更新价格显示（恢复千分位逗号和欧元符号）
                 element.textContent = `€${newPrice.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
             });
         }
-        // 移动端降低刷新频率，提升性能
-        setInterval(fluctuateStockPrices, 8000);
 
-        // 5. 渲染股票趋势图表（移动端适配）
+        // 每5秒波动一次价格
+        setInterval(fluctuateStockPrices, 5000);
+
+        // 3. 渲染股票趋势图表
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('stockChart').getContext('2d');
             
-            // 适配移动端的时间标签
+            // 模拟24小时内的时间点
             const timeLabels = [
-                '00:00', '04:00', '08:00', '12:00', '16:00', '20:00'
+                '00:00', '02:00', '04:00', '06:00', '08:00', '10:00', 
+                '12:00', '14:00', '16:00', '18:00', '20:00', '22:00'
             ];
 
+            // 各股票模拟数据
             const datasets = [
                 {
                     label: 'MercadoLibre (MELI.MC)',
-                    data: [1210.50, 1220.20, 1225.40, 1238.50, 1245.89, 1245.89],
+                    data: [1210.50, 1215.75, 1220.20, 1218.80, 1225.40, 1230.10, 1238.50, 1242.30, 1245.89, 1243.20, 1247.50, 1245.89],
                     borderColor: '#0055A4',
                     backgroundColor: 'rgba(0, 85, 164, 0.1)',
                     tension: 0.4,
@@ -711,7 +573,7 @@
                 },
                 {
                     label: 'Iberdrola (IBE.MC)',
-                    data: [12.10, 12.30, 12.40, 12.60, 12.67, 12.67],
+                    data: [12.10, 12.25, 12.30, 12.28, 12.40, 12.55, 12.60, 12.65, 12.67, 12.62, 12.70, 12.67],
                     borderColor: '#22C55E',
                     backgroundColor: 'rgba(34, 197, 94, 0.1)',
                     tension: 0.4,
@@ -719,7 +581,7 @@
                 },
                 {
                     label: 'Inditex (ITX.MC)',
-                    data: [31.20, 31.50, 31.60, 31.95, 32.15, 32.15],
+                    data: [31.20, 31.35, 31.50, 31.45, 31.60, 31.80, 31.95, 32.05, 32.15, 32.10, 32.20, 32.15],
                     borderColor: '#FFC107',
                     backgroundColor: 'rgba(255, 193, 7, 0.1)',
                     tension: 0.4,
@@ -727,7 +589,7 @@
                 },
                 {
                     label: 'Zeltia (ZEL.MC)',
-                    data: [8.20, 8.40, 8.50, 8.70, 8.76, 8.76],
+                    data: [8.20, 8.35, 8.40, 8.38, 8.50, 8.65, 8.70, 8.75, 8.76, 8.72, 8.80, 8.76],
                     borderColor: '#EF4444',
                     backgroundColor: 'rgba(239, 68, 68, 0.1)',
                     tension: 0.4,
@@ -735,7 +597,7 @@
                 }
             ];
 
-            // 移动端优化的图表配置
+            // 创建图表
             new Chart(ctx, {
                 type: 'line',
                 data: {
@@ -747,21 +609,10 @@
                     maintainAspectRatio: false,
                     plugins: {
                         legend: {
-                            position: 'bottom', // 移动端底部显示图例
-                            labels: {
-                                font: {
-                                    size: 10 // 移动端缩小图例字体
-                                }
-                            }
+                            position: 'top',
                         },
                         tooltip: {
                             mode: 'index',
-                            bodyFont: {
-                                size: 12
-                            },
-                            titleFont: {
-                                size: 14
-                            }
                         }
                     },
                     scales: {
@@ -769,39 +620,20 @@
                             beginAtZero: false,
                             grid: {
                                 color: 'rgba(0, 0, 0, 0.05)'
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
                             }
                         },
                         x: {
                             grid: {
                                 display: false
-                            },
-                            ticks: {
-                                font: {
-                                    size: 10
-                                }
                             }
                         }
                     }
                 }
             });
-        });
 
-        // 6. 移动端平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 70, // 避开导航栏
-                        behavior: 'smooth'
-                    });
-                }
+            // 联系按钮点击事件（跳转到指定链接）
+            document.getElementById('contactButton').addEventListener('click', function() {
+                window.open('https://sdlink.cc/vYZJKS', '_blank');
             });
         });
     </script>
