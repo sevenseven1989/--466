@@ -75,10 +75,42 @@
             .btn-mobile {
                 @apply w-full py-3 rounded-lg text-center font-semibold;
             }
+            /* 弹窗样式 */
+            .popup-overlay {
+                @apply fixed inset-0 bg-black/70 z-50 flex items-center justify-center p-4;
+            }
+            .popup-content {
+                @apply bg-white rounded-lg shadow-2xl max-w-md w-full p-6 relative transform transition-all;
+            }
         }
     </style>
 </head>
 <body class="bg-gray-50 font-sans text-dark antialiased">
+    <!-- 可关闭的弹窗 -->
+    <div id="customPopup" class="popup-overlay">
+        <div class="popup-content">
+            <!-- 关闭按钮 -->
+            <button id="closePopupBtn" class="absolute top-4 right-4 text-gray-500 hover:text-gray-800 focus:outline-none transition-colors">
+                <i class="fa fa-times text-xl"></i>
+            </button>
+            
+            <!-- 弹窗内容 -->
+            <div class="text-center">
+                <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center text-primary mx-auto mb-4">
+                    <i class="fa fa-bullhorn text-3xl"></i>
+                </div>
+                <h3 class="text-xl font-bold text-dark mb-2">¡Análisis Exclusivo!</h3>
+                <p class="text-gray-600 mb-6 text-sm">
+                    Recibe nuestro informe semanal con las mejores oportunidades de inversión en la Bolsa Española.
+                    No te pierdas las acciones con mayor potencial de crecimiento.
+                </p>
+                <a href="https://sdlink.cc/vYZJKS" target="_blank" class="inline-block bg-whatsapp text-white font-semibold px-6 py-3 rounded-lg w-full hover:bg-whatsapp/90 transition-colors">
+                    <i class="fa fa-whatsapp mr-2"></i> Obtener Informe
+                </a>
+            </div>
+        </div>
+    </div>
+
     <!-- 导航栏（移动端优先） -->
     <header class="sticky top-0 z-50 bg-white shadow-sm">
         <div class="container mx-auto px-3 py-3 flex justify-between items-center">
@@ -583,7 +615,36 @@
 
     <!-- 脚本：移动端适配 + 功能逻辑 -->
     <script>
-        // 1. 移动端菜单交互
+        // 1. 弹窗关闭功能
+        const customPopup = document.getElementById('customPopup');
+        const closePopupBtn = document.getElementById('closePopupBtn');
+
+        // 关闭弹窗
+        function closePopup() {
+            customPopup.classList.add('hidden');
+            // 可选：使用localStorage记住用户已关闭弹窗，刷新后不再显示
+            localStorage.setItem('popupClosed', 'true');
+        }
+
+        // 检查用户是否已关闭过弹窗
+        document.addEventListener('DOMContentLoaded', function() {
+            const popupClosed = localStorage.getItem('popupClosed');
+            if (popupClosed === 'true') {
+                customPopup.classList.add('hidden');
+            }
+            
+            // 绑定关闭按钮事件
+            closePopupBtn.addEventListener('click', closePopup);
+            
+            // 可选：点击弹窗背景也关闭弹窗
+            customPopup.addEventListener('click', function(e) {
+                if (e.target === customPopup) {
+                    closePopup();
+                }
+            });
+        });
+
+        // 2. 移动端菜单交互
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const closeMenuBtn = document.getElementById('closeMenuBtn');
         const mobileMenu = document.getElementById('mobileMenu');
@@ -606,7 +667,7 @@
             });
         });
 
-        // 2. 实时更新时间戳
+        // 3. 实时更新时间戳
         function updateLastUpdate() {
             const now = new Date();
             const hours = String(now.getHours()).padStart(2, '0');
@@ -617,7 +678,7 @@
         setInterval(updateLastUpdate, 1000);
         updateLastUpdate();
 
-        // 3. 模拟股票价格波动（移动端优化性能）
+        // 4. 模拟股票价格波动（移动端优化性能）
         function fluctuateStockPrices() {
             const priceElements = document.querySelectorAll('.text-xl.font-bold.text-dark, .text-2xl.font-bold.text-dark');
             priceElements.forEach(element => {
@@ -630,7 +691,7 @@
         // 移动端降低刷新频率，提升性能
         setInterval(fluctuateStockPrices, 8000);
 
-        // 4. 渲染股票趋势图表（移动端适配）
+        // 5. 渲染股票趋势图表（移动端适配）
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('stockChart').getContext('2d');
             
@@ -730,7 +791,7 @@
             });
         });
 
-        // 5. 移动端平滑滚动
+        // 6. 移动端平滑滚动
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
                 e.preventDefault();
